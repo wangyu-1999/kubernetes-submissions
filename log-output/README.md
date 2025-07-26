@@ -33,3 +33,8 @@
 > 2025-07-26T10:00:34.972Z:80fd9fe9-f576-4d59-a301-b44f2ad4b8f6
 > 
 > ...
+
+## 1.3
+`kubectl delete deployment log-output-dep`
+
+`kubectl apply -f log-output/mainifest/deployment.yaml`

@@ -3,9 +3,13 @@
 ## 1.1
 
 `docker build . -t march787/log-output:v1`
+
 `docker push march787/log-output:v1`
+
 `k3d cluster create -a 2`
+
 `kubectl create deployment log-output-dep --image=march787/log-output:v1`
+
 `kubectl get pods`
 
 > (base) wangyu@wangyudeMacBook-Air log-output % kubectl get pods

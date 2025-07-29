@@ -19,3 +19,13 @@
 `kubectl get pods`
 
 `kubectl logs -f todo-app-dep-dff447b54-89dzf`
+
+## 1.5
+
+`docker build . -t march787/todo-app:v2`
+
+`docker push march787/todo-app:v2`
+
+`kubectl apply -f mainifest/deployment.yaml`
+
+`kubectl port-forward todo-app-dep-7d8fbbf677-2nm4z 8080:5000`

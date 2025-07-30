@@ -29,3 +29,15 @@
 `kubectl apply -f mainifest/deployment.yaml`
 
 `kubectl port-forward todo-app-dep-7d8fbbf677-2nm4z 8080:5000`
+
+## 1.6
+
+`docker build . -t march787/todo-app:v3`
+
+`docker push march787/todo-app:v3`
+
+`kubectl apply -f mainifest/deployment.yaml`
+
+`kubectl apply -f mainifest/service.yaml`
+
+`kubectl get service todo-app-svc`

@@ -2,7 +2,7 @@ node_modules
 .env
 .vscode
 rest
-mainifest
+manifests
 .git
 .gitignore
 .dockerignore

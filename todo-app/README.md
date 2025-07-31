@@ -14,7 +14,7 @@
 
 `kubectl delete deployment todo-app-dep`
 
-`kubectl apply -f todo-app/mainifest/deployment.yaml`
+`kubectl apply -f todo-app/manifests/deployment.yaml`
 
 `kubectl get pods`
 
@@ -26,7 +26,7 @@
 
 `docker push march787/todo-app:v2`
 
-`kubectl apply -f mainifest/deployment.yaml`
+`kubectl apply -f manifests/deployment.yaml`
 
 `kubectl port-forward todo-app-dep-7d8fbbf677-2nm4z 8080:5000`
 
@@ -36,8 +36,8 @@
 
 `docker push march787/todo-app:v3`
 
-`kubectl apply -f mainifest/deployment.yaml`
+`kubectl apply -f manifests/deployment.yaml`
 
-`kubectl apply -f mainifest/service.yaml`
+`kubectl apply -f manifests/service.yaml`
 
 `kubectl get service todo-app-svc`

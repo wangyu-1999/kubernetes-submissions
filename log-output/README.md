@@ -37,4 +37,4 @@
 ## 1.3
 `kubectl delete deployment log-output-dep`
 
-`kubectl apply -f log-output/mainifest/deployment.yaml`
+`kubectl apply -f log-output/manifests/deployment.yaml`

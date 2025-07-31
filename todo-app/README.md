@@ -41,3 +41,7 @@
 `kubectl apply -f manifests/service.yaml`
 
 `kubectl get service todo-app-svc`
+
+## 1.8
+
+`kubectl apply -f log-output/manifests -f todo-app/manifests -f manifests`

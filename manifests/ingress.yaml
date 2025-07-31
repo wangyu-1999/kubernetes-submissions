@@ -1,0 +1,36 @@
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: default-stripprefix
+spec:
+  stripPrefix:
+    prefixes:
+      - /log
+      - /todo
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: dwk-material-ingress
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: default-default-stripprefix@kubernetescrd
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /log
+        pathType: Prefix
+        backend:
+          service:
+            name: log-output-svc
+            port:
+              number: 1234
+      - path: /todo
+        pathType: Prefix
+        backend:
+          service:
+            name: todo-app-svc
+            port:
+              number: 2345

@@ -1,10 +1,11 @@
-import crypto from "crypto";
+import app from "./app.js";
+import dotenv from "dotenv";
 
-const randomString = crypto.randomUUID();
+dotenv.config();
 
-console.log(`Application started. The generated string is: ${randomString}`);
+const HOST = process.env.HOST || "0.0.0.0";
+const PORT = process.env.PORT || 3000;
 
-setInterval(() => {
-  const timestamp = new Date().toISOString();
-  console.log(`${timestamp}:${randomString}`);
-}, 5000);
+app.listen(PORT, HOST, () => {
+  console.log(`Server is running on http://${HOST}:${PORT}`);
+});

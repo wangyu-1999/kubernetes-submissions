@@ -35,6 +35,19 @@
 > ...
 
 ## 1.3
+
 `kubectl delete deployment log-output-dep`
 
 `kubectl apply -f log-output/manifests/deployment.yaml`
+
+## 1.7
+
+`k3d cluster delete`
+
+`k3d cluster create --port 8082:30080@agent:0 -p 8081:80@loadbalancer --agents 2`
+
+`docker build . -t march787/log-output:v3`
+
+`docker push march787/log-output:v3`
+
+`kubectl apply -f manifests`

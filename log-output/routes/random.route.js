@@ -4,9 +4,6 @@ import getTimestampAndRandomString from "../controllers/get-timestamp-and-random
 
 const router = Router();
 
-router.get("/random", (_req, res) => {
-  const result = getTimestampAndRandomString();
-  res.json({ data: result });
-});
+router.get("/random", getTimestampAndRandomString);
 
 export default router;

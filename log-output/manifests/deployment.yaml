@@ -12,6 +12,23 @@ spec:
       labels:
         app: log-output
     spec:
+      volumes:
+        - name: shared-image
+          emptyDir: {}
       containers:
-        - name: log-output
-          image: march787/log-output:v3
+        - name: log-output-reader
+          image: march787/log-output:v4
+          volumeMounts:
+            - name: shared-image
+              mountPath: /usr/src/app/files
+          env:
+            - name: OUTPUT_FILE_PATH
+              value: "/usr/src/app/files/"
+        - name: log-output-generator
+          image: march787/string-generator:v1
+          volumeMounts:
+            - name: shared-image
+              mountPath: /usr/src/app/files
+          env:
+            - name: OUTPUT_FILE_PATH
+              value: "/usr/src/app/files/"

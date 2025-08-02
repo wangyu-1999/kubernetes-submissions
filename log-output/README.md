@@ -51,3 +51,16 @@
 `docker push march787/log-output:v3`
 
 `kubectl apply -f manifests`
+
+## 1.10
+
+`docker build . -t march787/log-output:v4`
+
+`docker push march787/log-output:v4`
+
+`docker build . -t march787/string-generator:v1 -f generator.Dockerfile`
+
+`docker push march787/string-generator:v1`
+
+`kubectl apply -f manifests`
+

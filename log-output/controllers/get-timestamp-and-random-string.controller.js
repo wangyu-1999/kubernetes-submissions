@@ -1,13 +1,25 @@
-import crypto from 'crypto';
-const randomString = crypto.randomUUID();
+import fs from "fs/promises";
+import path from "path";
+import dotenv from "dotenv";
+import { fileURLToPath } from "url";
 
-console.log(`Random String: ${randomString}`);
-const getTimestampAndRandomString = () => {
-    const timestamp = new Date().toISOString();
-    return {
-        timestamp: timestamp,
-        randomString: randomString
-    };
+dotenv.config();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const outputDir =
+  process.env.OUTPUT_FILE_PATH || path.join(__dirname, "..", "data");
+const outputFile = path.join(outputDir, "output.txt");
+const getStringFromFile = async (_req, res) => {
+  const data = await fs.readFile(outputFile, "utf-8");
+  const [timestamp, randomString] = data.split(",");
+  res.json({
+    data: {
+      timestamp: timestamp,
+      randomString: randomString,
+    },
+  });
 };
 
-export default getTimestampAndRandomString;
+export default getStringFromFile;

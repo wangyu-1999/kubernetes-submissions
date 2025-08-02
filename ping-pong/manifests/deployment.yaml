@@ -12,10 +12,19 @@ spec:
       labels:
         app: ping-pong
     spec:
+      volumes:
+        - name: shared-image
+          persistentVolumeClaim:
+            claimName: pingpong-pvc
       containers:
         - name: ping-pong
-          image: march787/ping-pong:v1
+          image: march787/ping-pong:v3
+          volumeMounts:
+            - name: shared-image
+              mountPath: /usr/src/app/files
           env:
             - name: PORT
               value: '5000'
+            - name: OUTPUT_FILE_PATH
+              value: "/usr/src/app/files/"
         

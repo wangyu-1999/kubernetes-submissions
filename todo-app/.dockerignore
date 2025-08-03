@@ -7,3 +7,4 @@ manifests
 .gitignore
 .dockerignore
 Dockerfile
+cache

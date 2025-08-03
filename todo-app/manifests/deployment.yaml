@@ -12,10 +12,19 @@ spec:
       labels:
         app: todo-app
     spec:
+      volumes:
+        - name: shared-image
+          persistentVolumeClaim:
+            claimName: pingpong-pvc
       containers:
         - name: todo-app
-          image: march787/todo-app:v3
+          image: march787/todo-app:v4
+          volumeMounts:
+            - name: shared-image
+              mountPath: /usr/src/app/files
           env:
             - name: PORT
-              value: '5000'
+              value: '3000'
+            - name: OUTPUT_FILE_PATH
+              value: "/usr/src/app/files/"
         

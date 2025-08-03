@@ -35,6 +35,13 @@ spec:
             name: todo-app-svc
             port:
               number: 2345
+      - path: /_next
+        pathType: Prefix
+        backend:
+          service:
+            name: todo-app-svc
+            port:
+              number: 2345
       - path: /pingpong
         pathType: Prefix
         backend:

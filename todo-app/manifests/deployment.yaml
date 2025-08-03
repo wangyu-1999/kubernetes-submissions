@@ -18,7 +18,7 @@ spec:
             claimName: pingpong-pvc
       containers:
         - name: todo-app
-          image: march787/todo-app:v4
+          image: march787/todo-app:v6
           volumeMounts:
             - name: shared-image
               mountPath: /usr/src/app/files

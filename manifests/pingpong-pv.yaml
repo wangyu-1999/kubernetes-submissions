@@ -10,7 +10,7 @@ spec:
   accessModes:
     - ReadWriteMany
   local:
-    path: /tmp/pingpong
+    path: /tmp
   nodeAffinity:
     required:
       nodeSelectorTerms:

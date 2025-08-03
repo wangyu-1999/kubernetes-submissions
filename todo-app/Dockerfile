@@ -13,7 +13,8 @@ WORKDIR /app
 
 EXPOSE 3000
 
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/.next/standalone ./standalone
+COPY --from=builder /app/.next/static ./standalone/.next/static
+COPY --from=builder /app/public ./standalone/public
 
-CMD ["node", ".next/standalone/server.js"]
+CMD ["node", "./standalone/server.js"]

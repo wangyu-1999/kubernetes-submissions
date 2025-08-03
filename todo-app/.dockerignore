@@ -8,3 +8,4 @@ manifests
 .dockerignore
 Dockerfile
 cache
+.next

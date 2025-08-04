@@ -6,6 +6,7 @@ spec:
   stripPrefix:
     prefixes:
       - /log
+      - /todo-backend
       - /todo
       - /pingpong
 
@@ -28,6 +29,13 @@ spec:
             name: log-output-svc
             port:
               number: 1234
+      - path: /todo-backend
+        pathType: Prefix
+        backend:
+          service:
+            name: todo-backend-svc
+            port:
+              number: 3797
       - path: /todo
         pathType: Prefix
         backend:

@@ -4,6 +4,8 @@ WORKDIR /app
 
 COPY . .
 
+ENV NEXT_PUBLIC_BACKEND_URL=http://localhost:8081/todo-backend/
+
 RUN npm install
 RUN npm run build
 

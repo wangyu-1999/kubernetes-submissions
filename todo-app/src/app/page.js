@@ -1,7 +1,39 @@
+"use client";
 import Image from "next/image";
+import { useState, useEffect } from "react";
 
-const todos = ["Todo 1", "Todo 2", "Todo 3"];
 export default function Home() {
+  const [todos, setTodos] = useState([]);
+  const [inputValue, setInputValue] = useState("");
+
+  async function fetchTodos() {
+    const response = await fetch(
+      new URL("api/todos", process.env.NEXT_PUBLIC_BACKEND_URL)
+    );
+    const data = await response.json();
+    setTodos(data);
+  }
+
+  async function addTodo(text) {
+    const response = await fetch(
+      new URL("api/todos", process.env.NEXT_PUBLIC_BACKEND_URL),
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ task: text }),
+      }
+    );
+    const data = await response.json();
+    setTodos((prevTodos) => [...prevTodos, data]);
+    setInputValue("");
+  }
+
+  useEffect(() => {
+    fetchTodos();
+  }, []);
+
   return (
     <div className="ml-2">
       <h1 className="text-5xl font-bold my-6">The project App</h1>
@@ -15,15 +47,20 @@ export default function Home() {
             placeholder="New todo"
             maxLength={140}
             className="border-2 px-2 py-1"
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
           />
-          <button className="bg-blue-400 hover:bg-blue-500 text-white px-2 py-1">
+          <button
+            className="bg-blue-400 hover:bg-blue-500 text-white px-2 py-1"
+            onClick={() => addTodo(inputValue)}
+          >
             Create Todo
           </button>
         </div>
         <ul className="list-disc list-inside ml-5">
           {todos.map((todo, index) => (
             <li key={index} className="text-lg my-1">
-              {todo}
+              {todo.task}
             </li>
           ))}
         </ul>

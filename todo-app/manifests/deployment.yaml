@@ -18,7 +18,7 @@ spec:
             claimName: pingpong-pvc
       containers:
         - name: todo-app
-          image: march787/todo-app:v6
+          image: march787/todo-app:v10
           volumeMounts:
             - name: shared-image
               mountPath: /usr/src/app/files
@@ -27,4 +27,6 @@ spec:
               value: '3000'
             - name: OUTPUT_FILE_PATH
               value: "/usr/src/app/files/"
+            - name: NEXT_PUBLIC_BACKEND_URL
+              value: "http://localhost:8081/todo-backend/"
         

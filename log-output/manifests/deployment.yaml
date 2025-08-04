@@ -18,13 +18,15 @@ spec:
             claimName: pingpong-pvc
       containers:
         - name: log-output-reader
-          image: march787/log-output:v5
+          image: march787/log-output:v6
           volumeMounts:
             - name: shared-image
               mountPath: /usr/src/app/files
           env:
             - name: OUTPUT_FILE_PATH
               value: "/usr/src/app/files/"
+            - name: PING_PONG_URL
+              value: "http://ping-pong-svc:3567/api/"
         - name: log-output-generator
           image: march787/string-generator:v1
           volumeMounts:

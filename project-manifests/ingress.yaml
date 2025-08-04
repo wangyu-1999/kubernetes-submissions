@@ -2,13 +2,12 @@ apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
   name: default-stripprefix
+  namespace: project
 spec:
   stripPrefix:
     prefixes:
-      - /log
       - /todo-backend
       - /todo
-      - /pingpong
 
 ---
 
@@ -16,19 +15,13 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: dwk-material-ingress
+  namespace: project
   annotations:
-    traefik.ingress.kubernetes.io/router.middlewares: default-default-stripprefix@kubernetescrd
+    traefik.ingress.kubernetes.io/router.middlewares: project-default-stripprefix@kubernetescrd
 spec:
   rules:
   - http:
       paths:
-      - path: /log
-        pathType: Prefix
-        backend:
-          service:
-            name: log-output-svc
-            port:
-              number: 1234
       - path: /todo-backend
         pathType: Prefix
         backend:
@@ -50,10 +43,3 @@ spec:
             name: todo-app-svc
             port:
               number: 2345
-      - path: /pingpong
-        pathType: Prefix
-        backend:
-          service:
-            name: ping-pong-svc
-            port:
-              number: 3567

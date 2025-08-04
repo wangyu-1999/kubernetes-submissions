@@ -17,7 +17,7 @@ metadata:
   name: dwk-material-ingress
   namespace: exercises
   annotations:
-    traefik.ingress.kubernetes.io/router.middlewares: default-default-stripprefix@kubernetescrd
+    traefik.ingress.kubernetes.io/router.middlewares: exercises-default-stripprefix@kubernetescrd
 spec:
   rules:
   - http:

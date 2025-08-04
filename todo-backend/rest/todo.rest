@@ -1,0 +1,10 @@
+GET http://localhost:3687/api/todos
+
+###
+
+POST http://localhost:3687/api/todos
+Content-Type: application/json
+
+{
+    "task": "New Todo"
+}

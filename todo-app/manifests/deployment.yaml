@@ -19,7 +19,7 @@ spec:
             claimName: todo-pvc
       containers:
         - name: todo-app
-          image: march787/todo-app:v10
+          image: march787/todo-app:v11
           volumeMounts:
             - name: shared-image
               mountPath: /usr/src/app/files
@@ -30,4 +30,11 @@ spec:
               value: "/usr/src/app/files/"
             - name: NEXT_PUBLIC_BACKEND_URL
               value: "http://localhost:8081/todo-backend/"
-        
+            - name: IMAGE_GENERATOR_URL
+              value: "https://picsum.photos/1200.jpg"
+            - name: IMAGE_NAME
+              value: "image.jpg"
+            - name: METADATA_NAME
+              value: "metadata.json"
+            - name: OUTPUT_FOLDER_NAME
+              value: "cache"

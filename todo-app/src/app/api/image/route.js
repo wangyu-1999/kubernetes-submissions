@@ -5,13 +5,15 @@ import { NextResponse } from "next/server";
 
 dotenv.config();
 
-const CACHE_DIR = process.env.OUTPUT_FILE_PATH ? path.join(process.env.OUTPUT_FILE_PATH, "cache") : path.resolve("cache");
-const IMAGE_PATH = path.join(CACHE_DIR, "image.jpg");
-const METADATA_PATH = path.join(CACHE_DIR, "metadata.json");
+const CACHE_DIR = process.env.OUTPUT_FILE_PATH
+  ? path.join(process.env.OUTPUT_FILE_PATH, process.env.OUTPUT_FOLDER_NAME)
+  : path.resolve(process.env.OUTPUT_FOLDER_NAME);
+const IMAGE_PATH = path.join(CACHE_DIR, process.env.IMAGE_NAME);
+const METADATA_PATH = path.join(CACHE_DIR, process.env.METADATA_NAME);
 const CACHE_DURATION_MS = 10 * 60 * 1000;
 
 const fetchImageAndSaveToCache = async () => {
-  const response = await fetch("https://picsum.photos/1200");
+  const response = await fetch(process.env.IMAGE_GENERATOR_URL);
   const imageBuffer = Buffer.from(await response.arrayBuffer());
   await fs.mkdir(CACHE_DIR, { recursive: true });
   await fs.writeFile(IMAGE_PATH, imageBuffer);

@@ -17,11 +17,15 @@ const getStringFromFile = async (_req, res) => {
   const response = await fetch(pingpongUrl);
   const pingpongData = await response.json();
   const [timestamp, randomString] = data.split(",");
+  const configData = await fs.readFile("/etc/config/information.txt", "utf-8");
+  const message = process.env.MESSAGE;
   res.json({
     data: {
       timestamp: timestamp,
       randomString: randomString,
       pingpong: pingpongData.pong,
+      fileContent: configData,
+      message: message,
     },
   });
 };

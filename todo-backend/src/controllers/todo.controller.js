@@ -1,18 +1,21 @@
-const todoList = [
-  { id: 1, task: 'Todo 1' },
-  { id: 2, task: 'Todo 2' },
-  { id: 3, task: 'Todo 3' },
-];
-export const getTodoList = (_req, res) => {
-  res.json(todoList);
+import Todo from '../models/Todo.js';
+export const getTodoList = async (_req, res) => {
+  try {
+    const todos = await Todo.findAll();
+    res.json(todos);
+  } catch (error) {
+    console.error('Error fetching todo list:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 };
 
-export const createTodo = (req, res) => {
+export const createTodo = async (req, res) => {
   const { task } = req.body;
-  const newTodo = {
-    id: todoList.length + 1,
-    task,
-  };
-  todoList.push(newTodo);
-  res.status(201).json(newTodo);
+  try {
+    const newTodo = await Todo.create({ task });
+    res.status(201).json(newTodo);
+  } catch (error) {
+    console.error('Error creating todo:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 };

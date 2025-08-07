@@ -1,0 +1,58 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: wikipedia-todo-cronjob
+  namespace: project
+spec:
+  schedule: '0 * * * *'
+
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        spec:
+          containers:
+            - name: todo-generator
+              image: alpine:latest
+
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  set -e
+
+                  apk update && apk add curl postgresql-client
+
+                  WIKI_URL=$(curl -s -L -o /dev/null -w '%{url_effective}' "https://en.wikipedia.org/wiki/Special:Random")
+
+                  if [ -z "$WIKI_URL" ]; then
+                      echo "Error: Failed to fetch a random URL. Exiting."
+                      exit 1
+                  fi
+
+                  echo "Fetched URL: $WIKI_URL"
+
+                  TASK_TEXT="Read $WIKI_URL"
+
+                  SQL_QUERY="INSERT INTO todos (task, completed, created_at, updated_at) VALUES ('$TASK_TEXT', false, NOW(), NOW());"
+
+                  echo "SQL to be executed: $SQL_QUERY"
+
+                  export PGPASSWORD=$POSTGRES_PASSWORD
+                  psql -h "$POSTGRES_HOST" -U "$POSTGRES_USER" -d "$POSTGRES_DB" -c "$SQL_QUERY"
+
+                  echo "Job finished successfully!"
+              env:
+                - name: POSTGRES_HOST
+                  value: 'postgres-svc'
+                - name: POSTGRES_USER
+                  value: 'postgres'
+                - name: POSTGRES_DB
+                  value: 'postgres'
+                - name: POSTGRES_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: postgres-secret
+                      key: POSTGRES_PASSWORD
+
+          restartPolicy: OnFailure

@@ -2,9 +2,9 @@ GET http://localhost:3687/api/todos
 
 ###
 
-POST http://localhost:3687/api/todos
+POST http://localhost:8081/todo-backend/api/todos
 Content-Type: application/json
 
 {
-    "task": "New Todo"
+    "task": " bbc.com Israels security cabinet approves Gaza City takeover as Starmer calls planwrong- live updates BBC News Live Repo  bbc.com Israels security cabinet approves Gaza City takeover as Starmer calls planwrong- live updates BBC News Live Repo"
 }

@@ -12,6 +12,16 @@ export const getTodoList = async (_req, res) => {
 export const createTodo = async (req, res) => {
   const { task } = req.body;
   try {
+    if (!task) {
+      console.error('Task is required');
+      return res.status(400).json({ error: 'Task is required' });
+    }
+    if (task.length > 140) {
+      console.error('Task must be at most 140 characters long');
+      return res
+        .status(400)
+        .json({ error: 'Task must be at most 140 characters long' });
+    }
     const newTodo = await Todo.create({ task });
     res.status(201).json(newTodo);
   } catch (error) {

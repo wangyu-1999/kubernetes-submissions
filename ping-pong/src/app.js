@@ -12,6 +12,9 @@ app.use(express.json());
 app.get('/', (_req, res) => {
   res.json({ message: 'Hello, World!' });
 });
+app.get('/pingpong', (_req, res) => {
+  res.json({ message: 'pongtest' });
+});
 app.use('/api', apiRoutes);
 
 app.use(unknownEndpoint);

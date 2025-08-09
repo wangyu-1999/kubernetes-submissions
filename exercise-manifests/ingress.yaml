@@ -1,3 +1,4 @@
+
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
@@ -19,6 +20,7 @@ metadata:
   annotations:
     traefik.ingress.kubernetes.io/router.middlewares: exercises-default-stripprefix@kubernetescrd
 spec:
+  ingressClassName: traefik
   rules:
   - http:
       paths:

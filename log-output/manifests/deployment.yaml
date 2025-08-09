@@ -14,17 +14,17 @@ spec:
         app: log-output
     spec:
       volumes:
-        - name: shared-image
+        - name: shared-volume
           persistentVolumeClaim:
-            claimName: pingpong-pvc
+            claimName: shared-pvc
         - name: config-volume
           configMap:
             name: log-output-configmap
       containers:
         - name: log-output-reader
-          image: march787/log-output:v7
+          image: march787/log-output:v8
           volumeMounts:
-            - name: shared-image
+            - name: shared-volume
               mountPath: /usr/src/app/files
             - name: config-volume
               mountPath: /etc/config
@@ -41,9 +41,9 @@ spec:
                   key: MESSAGE
   
         - name: log-output-generator
-          image: march787/string-generator:v1
+          image: march787/string-generator:v2
           volumeMounts:
-            - name: shared-image
+            - name: shared-volume
               mountPath: /usr/src/app/files
           env:
             - name: OUTPUT_FILE_PATH

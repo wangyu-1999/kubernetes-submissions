@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: ping-pong
-          image: march787/ping-pong:v5
+          image: march787/ping-pong:v6
           env:
             - name: PORT
               value: "5000"

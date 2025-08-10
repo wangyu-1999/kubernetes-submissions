@@ -7,24 +7,19 @@ export default function Home() {
   const [inputValue, setInputValue] = useState("");
 
   async function fetchTodos() {
-    const response = await fetch(
-      new URL("api/todos", process.env.NEXT_PUBLIC_BACKEND_URL)
-    );
+    const response = await fetch("api/todos");
     const data = await response.json();
     setTodos(data);
   }
 
   async function addTodo(text) {
-    const response = await fetch(
-      new URL("api/todos", process.env.NEXT_PUBLIC_BACKEND_URL),
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ task: text }),
-      }
-    );
+    const response = await fetch("api/todos/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ task: text }),
+    });
     const data = await response.json();
     setTodos((prevTodos) => [...prevTodos, data]);
     setInputValue("");

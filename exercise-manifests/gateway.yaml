@@ -7,7 +7,7 @@ spec:
   listeners:
   - name: http
     protocol: HTTP
-    port: 3567
+    port: 80
     allowedRoutes:
       kinds:
       - kind: HTTPRoute
@@ -29,7 +29,27 @@ spec:
   - matches:
     - path:
         type: PathPrefix
-        value: /
+        value: /pingpong
+    filters:
+    - type: URLRewrite
+      urlRewrite:
+        path:
+          type: ReplacePrefixMatch
+          replacePrefixMatch: /
     backendRefs:
     - name: ping-pong-svc
       port: 3567
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /log
+    filters:
+    - type: URLRewrite
+      urlRewrite:
+        path:
+          type: ReplacePrefixMatch
+          replacePrefixMatch: /
+    backendRefs:
+    - name: log-output-svc
+      port: 1234
+    

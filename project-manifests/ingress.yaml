@@ -19,10 +19,18 @@ metadata:
   annotations:
     traefik.ingress.kubernetes.io/router.middlewares: project-default-stripprefix@kubernetescrd
 spec:
+  ingressClassName: traefik
   rules:
   - http:
       paths:
       - path: /todo-backend
+        pathType: Prefix
+        backend:
+          service:
+            name: todo-backend-svc
+            port:
+              number: 3797
+      - path: /api/todos
         pathType: Prefix
         backend:
           service:

@@ -14,22 +14,20 @@ spec:
         app: todo-app
     spec:
       volumes:
-        - name: shared-image
+        - name: shared-volume
           persistentVolumeClaim:
             claimName: todo-pvc
       containers:
         - name: todo-app
-          image: march787/todo-app:v11
+          image: march787/todo-app:v13
           volumeMounts:
-            - name: shared-image
+            - name: shared-volume
               mountPath: /usr/src/app/files
           env:
             - name: PORT
               value: '3000'
             - name: OUTPUT_FILE_PATH
               value: "/usr/src/app/files/"
-            - name: NEXT_PUBLIC_BACKEND_URL
-              value: "http://localhost:8081/todo-backend/"
             - name: IMAGE_GENERATOR_URL
               value: "https://picsum.photos/1200.jpg"
             - name: IMAGE_NAME

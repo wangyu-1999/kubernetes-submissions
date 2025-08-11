@@ -12,3 +12,7 @@ resources:
   - todo-backend/manifests/deployment.yaml
   - todo-backend/manifests/service.yaml
   - todo-backend/manifests/todo-cronjob.yaml
+
+images:
+  - name: march787/todo-app
+  - name: march787/todo-backend

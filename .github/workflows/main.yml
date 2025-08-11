@@ -67,7 +67,7 @@ jobs:
         run: |
           kustomize edit set image march787/todo-app=$APP_IMAGE_TAG
           kustomize edit set image march787/todo-backend=$BACKEND_IMAGE_TAG
-          kustomize build ./todo | kubectl apply -f -
+          kustomize build | kubectl apply -f -
           kubectl rollout status deployment $SERVICE
           kubectl get services -o wide
 

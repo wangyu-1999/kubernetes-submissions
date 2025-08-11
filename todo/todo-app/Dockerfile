@@ -4,8 +4,15 @@ WORKDIR /app
 
 COPY . .
 
+ENV OUTPUT_FILE_PATH="/usr/src/app/files/"
+ENV IMAGE_GENERATOR_URL="https://picsum.photos/1200.jpg"
+ENV IMAGE_NAME="image.jpg"
+ENV METADATA_NAME="metadata.json"
+ENV OUTPUT_FOLDER_NAME="cache"
+
 RUN npm install
 RUN npm run build
+
 
 FROM node:22-alpine AS runner
 

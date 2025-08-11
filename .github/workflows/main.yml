@@ -41,6 +41,12 @@ jobs:
           project_id: '${{ env.PROJECT_ID }}'
           location: '${{ env.GKE_ZONE }}'
 
+      - name: Validate Auth
+        run: gcloud auth list && gcloud config list
+
+      - name: Set GCP Project
+        run: gcloud config set project $PROJECT_ID
+
       - name: Form todo-app image name
         run: echo "APP_IMAGE_TAG=$REGISTRY/$PROJECT_ID/$REPOSITORY/todo-app:$BRANCH-$GITHUB_SHA" >> $GITHUB_ENV
 

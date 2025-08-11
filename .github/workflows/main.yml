@@ -64,10 +64,21 @@ jobs:
       - name: Deploy
         working-directory: ./todo
         run: |
+          BRANCH_NAME=${GITHUB_REF#refs/heads/}
+          if [ "$BRANCH_NAME" = "main" ]; then
+            NAMESPACE="project"
+          else
+            NAMESPACE="$BRANCH_NAME"
+          fi
+          echo "Deploying to namespace: $NAMESPACE"
+          kubectl create namespace $NAMESPACE || true
+          kubectl config set-context --current --namespace=$NAMESPACE
+          kustomize edit set namespace $NAMESPACE
+
           kustomize edit set image march787/todo-app=$APP_IMAGE_TAG
           kustomize edit set image march787/todo-backend=$BACKEND_IMAGE_TAG
-          kustomize build | kubectl apply -f -
-          kubectl rollout status deployment todo-app-dep -n project
-          kubectl rollout status deployment todo-backend-dep -n project
-          kubectl get services -n project -o wide
+          kustomize build . | kubectl apply -f -
+          kubectl rollout status deployment todo-app-dep -n $NAMESPACE
+          kubectl rollout status deployment todo-backend-dep -n $NAMESPACE
+          kubectl get services -n $NAMESPACE -o wide
 

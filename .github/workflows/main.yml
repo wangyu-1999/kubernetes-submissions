@@ -41,11 +41,17 @@ jobs:
           project_id: '${{ env.PROJECT_ID }}'
           location: '${{ env.GKE_ZONE }}'
 
-      - name: Validate Auth
-        run: gcloud auth list && gcloud config list
+      - name: Confirm GCP Auth & Setup
+        run: |
+          echo "🔐 Verifying authentication"
+          gcloud auth list
+          echo "📁 Setting GCP project"
+          gcloud config set project $PROJECT_ID
+          echo "📦 Checking if Artifact Registry repository exists"
+          gcloud artifacts repositories list --location=europe-north1
+          echo "🔍 Checking uploadArtifacts permission"
+          gcloud projects get-iam-policy $PROJECT_ID | grep artifactregistry.repositories.uploadArtifacts || echo "⚠️ uploadArtifacts permission not found. Please review IAM settings."
 
-      - name: Set GCP Project
-        run: gcloud config set project $PROJECT_ID
 
       - name: Form todo-app image name
         run: echo "APP_IMAGE_TAG=$REGISTRY/$PROJECT_ID/$REPOSITORY/todo-app:$BRANCH-$GITHUB_SHA" >> $GITHUB_ENV

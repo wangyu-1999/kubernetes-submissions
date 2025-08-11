@@ -10,7 +10,6 @@ env:
   REGISTRY: europe-north1-docker.pkg.dev
   REPOSITORY: my-repository
   IMAGE: dwk-environments
-  SERVICE: dwk-environments
   BRANCH: ${{ github.ref_name }}
 
 jobs:
@@ -68,6 +67,7 @@ jobs:
           kustomize edit set image march787/todo-app=$APP_IMAGE_TAG
           kustomize edit set image march787/todo-backend=$BACKEND_IMAGE_TAG
           kustomize build | kubectl apply -f -
-          kubectl rollout status deployment $SERVICE
+          kubectl rollout status deployment todo-app-dep
+          kubectl rollout status deployment todo-backend-dep
           kubectl get services -o wide
 

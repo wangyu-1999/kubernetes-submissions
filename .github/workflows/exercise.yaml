@@ -18,7 +18,7 @@ env:
 jobs:
   build-publish-deploy-exercise:
     if: ${{ endsWith(github.event.head_commit.message, '#exercise') }} 
-    name: Build, Publish and Deploy
+    name: exercise Build, Publish and Deploy
     runs-on: ubuntu-latest
 
     steps:

@@ -18,7 +18,7 @@ env:
 jobs:
   build-publish-deploy:
     if: ${{ !endsWith(github.event.head_commit.message, '#skip-deploy') }} && ${{ !endsWith(github.event.head_commit.message, '#exercise') }} 
-    name: Build, Publish and Deploy
+    name: Build, Publish and Deploy project
     runs-on: ubuntu-latest
 
     steps:

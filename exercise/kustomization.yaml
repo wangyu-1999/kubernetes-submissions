@@ -1,16 +1,16 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - exercises/namespace.yaml
-  - exercises/db.yaml
-  - exercises/pingpong-storage.yaml
-  - exercises/gateway.yaml
+  - manifests/namespace.yaml
+  - manifests/db.yaml
+  - manifests/pingpong-storage.yaml
+  - manifests/gateway.yaml
 
-  - exercises/ping-pong/manifests/deployment.yaml
-  - exercises/ping-pong/manifests/service.yaml
+  - ping-pong/manifests/deployment.yaml
+  - ping-pong/manifests/service.yaml
 
-  - exercises/log-output/manifests/deployment.yaml
-  - exercises/log-output/manifests/service.yaml
+  - log-output/manifests/deployment.yaml
+  - log-output/manifests/service.yaml
 
 images:
   - name: march787/log-output

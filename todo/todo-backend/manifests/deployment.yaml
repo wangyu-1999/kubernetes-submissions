@@ -30,4 +30,10 @@ spec:
                   key: POSTGRES_PASSWORD
             - name: POSTGRES_DB
               value: "postgres"
-        
+          resources:
+            limits:
+              cpu: "100m"
+              memory: "100Mi"
+            requests:
+              cpu: "10m"
+              memory: "50Mi"

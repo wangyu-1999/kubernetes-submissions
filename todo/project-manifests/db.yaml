@@ -66,5 +66,9 @@ spec:
         accessModes: ["ReadWriteOnce"]
         storageClassName: standard
         resources:
+          limits:
+            cpu: "100m"
+            memory: "100Mi"
           requests:
-            storage: 100Mi
+            cpu: "10m"
+            memory: "50Mi"

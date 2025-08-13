@@ -3,6 +3,7 @@ import express from 'express';
 
 import unknownEndpoint from './middleware/unknown-endpoint.js';
 import apiRoutes from './routes/api.routes.js';
+import healthzRoutes from './routes/healthz.routes.js';
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.get('/pingpong', (_req, res) => {
   res.json({ message: 'pongtest' });
 });
 app.use('/api', apiRoutes);
+app.use('/', healthzRoutes);
 
 app.use(unknownEndpoint);
 

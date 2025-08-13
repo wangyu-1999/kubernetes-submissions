@@ -16,6 +16,9 @@ spec:
       containers:
         - name: ping-pong
           image: march787/ping-pong:v7
+          ports:
+            - name: http
+              containerPort: 5000
           env:
             - name: PORT
               value: "5000"
@@ -30,4 +33,10 @@ spec:
                   key: POSTGRES_PASSWORD
             - name: POSTGRES_DB
               value: "postgres"
+          readinessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            httpGet:
+               path: /healthz
+               port: http
         

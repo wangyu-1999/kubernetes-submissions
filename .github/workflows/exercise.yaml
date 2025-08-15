@@ -93,6 +93,5 @@ jobs:
           kustomize edit set image march787/string-generator=$STRING_GENERATOR_IMAGE_TAG
           kustomize build . | kubectl apply -f -
           kubectl rollout status deployment log-output-dep -n $NAMESPACE
-          kubectl rollout status deployment ping-pong-dep -n $NAMESPACE
           kubectl get services -n $NAMESPACE -o wide
 

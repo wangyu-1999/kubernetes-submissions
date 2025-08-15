@@ -25,6 +25,16 @@ export default function Home() {
     setInputValue("");
   }
 
+  async function markTodoAsCompleted(id) {
+    const response = await fetch(`api/todos/${id}`, {
+      method: "PUT",
+    });
+    const data = await response.json();
+    setTodos((prevTodos) =>
+      prevTodos.map((todo) => (todo.id === id ? data : todo))
+    );
+  }
+
   useEffect(() => {
     fetchTodos();
   }, []);
@@ -52,12 +62,35 @@ export default function Home() {
             Create Todo
           </button>
         </div>
+        <div className="text-2xl font-extrabold my-3">Todos</div>
         <ul className="list-disc list-inside ml-5">
-          {todos.map((todo, index) => (
-            <li key={index} className="text-lg my-1">
-              {todo.task}
-            </li>
-          ))}
+          {todos
+            .sort((a, b) => a.id - b.id)
+            .filter((todo) => !todo.completed)
+            .map((todo, index) => (
+              <li key={index} className="text-lg my-1">
+                {todo.task}
+                {
+                  <button
+                    className="bg-blue-400 hover:bg-blue-500 text-white p-1 ml-4 text-sm"
+                    onClick={() => markTodoAsCompleted(todo.id)}
+                  >
+                    Mark as Completed
+                  </button>
+                }
+              </li>
+            ))}
+        </ul>
+        <div className="text-2xl font-extrabold my-3">Completed Todos</div>
+        <ul className="list-disc list-inside ml-5">
+          {todos
+            .sort((a, b) => a.id - b.id)
+            .filter((todo) => todo.completed)
+            .map((todo, index) => (
+              <li key={index} className="text-lg my-1">
+                {todo.task}
+              </li>
+            ))}
         </ul>
       </div>
       <div className="text-lg my-3">DevOps with Kubernetes 2025</div>

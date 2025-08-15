@@ -29,3 +29,19 @@ export const createTodo = async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+
+export const markTodoAsCompleted = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const todo = await Todo.findByPk(id);
+    if (!todo) {
+      return res.status(404).json({ error: 'Todo not found' });
+    }
+    todo.completed = true;
+    await todo.save();
+    res.json(todo);
+  } catch (error) {
+    console.error('Error updating todo:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};

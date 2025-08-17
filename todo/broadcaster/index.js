@@ -7,6 +7,7 @@ dotenv.config();
 const NATS_URL = process.env.NATS_URL || "nats://localhost:4222";
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
+const QUEUE_GROUP = process.env.QUEUE_GROUP || "broadcaster.workers";
 
 const main = async () => {
   if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
@@ -22,7 +23,9 @@ const main = async () => {
     });
 
     const sc = StringCodec();
-    const sub = nc.subscribe("todo.updated");
+    const sub = nc.subscribe("todo.updated", {
+      queue: QUEUE_GROUP,
+    });
 
     for await (const m of sub) {
       try {

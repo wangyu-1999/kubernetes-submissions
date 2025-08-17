@@ -1,18 +1,24 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+
+
 resources:
-  - exercise-manifests/namespace.yaml
-  - exercise-manifests/db.yaml
-  - exercise-manifests/pingpong-storage.yaml
-  - exercise-manifests/gateway.yaml
-
-  - ping-pong/manifests/deployment.yaml
-  - ping-pong/manifests/service.yaml
-
-  - log-output/manifests/deployment.yaml
-  - log-output/manifests/service.yaml
+- exercise-manifests/namespace.yaml
+- exercise-manifests/db.yaml
+- exercise-manifests/pingpong-storage.yaml
+- exercise-manifests/gateway.yaml
+- ping-pong/manifests/deployment.yaml
+- ping-pong/manifests/service.yaml
+- log-output/manifests/deployment.yaml
+- log-output/manifests/service.yaml
 
 images:
-  - name: march787/log-output
-  - name: march787/ping-pong
-  - name: march787/string-generator
+- name: march787/log-output
+  newName: march787/log-output
+  newTag: 3c0ce4d4c6d6f344260d9e26e15e5e746b67780c
+- name: march787/ping-pong
+  newName: march787/ping-pong
+  newTag: 3c0ce4d4c6d6f344260d9e26e15e5e746b67780c
+- name: march787/string-generator
+  newName: march787/string-generator
+  newTag: 3c0ce4d4c6d6f344260d9e26e15e5e746b67780c

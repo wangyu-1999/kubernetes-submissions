@@ -1,4 +1,4 @@
-name: Release todo application
+name: todo app GKE deployment
 
 on:
   push:
@@ -17,7 +17,7 @@ env:
 
 jobs:
   build-publish-deploy:
-    if: ${{ !endsWith(github.event.head_commit.message, '#skip-deploy') && !endsWith(github.event.head_commit.message, '#exercise') }}
+    if: ${{endsWith(github.event.head_commit.message, '#project-gke')}}
     name: Build, Publish and Deploy project
     runs-on: ubuntu-latest
 

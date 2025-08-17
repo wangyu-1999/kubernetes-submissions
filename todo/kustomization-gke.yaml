@@ -1,0 +1,18 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - project-manifests/namespace.yaml
+  - project-manifests/db.yaml
+  - project-manifests/todo-storage.yaml
+  - project-manifests/ingress.yaml
+
+  - todo-app/manifests/deployment.yaml
+  - todo-app/manifests/service.yaml
+  
+  - todo-backend/manifests/deployment.yaml
+  - todo-backend/manifests/service.yaml
+  - todo-backend/manifests/todo-cronjob.yaml
+
+images:
+  - name: march787/todo-app
+  - name: march787/todo-backend

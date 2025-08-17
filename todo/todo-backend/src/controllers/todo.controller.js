@@ -1,4 +1,22 @@
+import { connect, StringCodec } from 'nats';
+
 import Todo from '../models/Todo.js';
+
+const publishToUpdate = async (todo) => {
+  const natsUrl = process.env.NATS_URL || 'nats://localhost:4222';
+  const nc = await connect({ servers: natsUrl });
+  try {
+    const sc = StringCodec();
+    nc.publish('todo.updated', sc.encode(JSON.stringify(todo)));
+    console.log(`Published todo update: ${JSON.stringify(todo)}`);
+    await nc.drain();
+  } catch (error) {
+    console.error('Error publishing todo update:', error);
+  } finally {
+    await nc.close();
+  }
+};
+
 export const getTodoList = async (_req, res) => {
   try {
     const todos = await Todo.findAll();
@@ -23,6 +41,7 @@ export const createTodo = async (req, res) => {
         .json({ error: 'Task must be at most 140 characters long' });
     }
     const newTodo = await Todo.create({ task });
+    await publishToUpdate(newTodo);
     res.status(201).json(newTodo);
   } catch (error) {
     console.error('Error creating todo:', error);

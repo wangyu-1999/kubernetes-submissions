@@ -33,6 +33,8 @@ spec:
                   key: POSTGRES_PASSWORD
             - name: POSTGRES_DB
               value: "postgres"
+            - name: NATS_URL
+              value: "nats://nats-service:4222"
           resources:
             limits:
               cpu: "100m"

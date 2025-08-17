@@ -8,3 +8,13 @@ Content-Type: application/json
 {
     "task": " bbc.com Israels security cabinet approves Gaza City takeover as Starmer calls planwrong- live updates BBC News Live Repo  bbc.com Israels security cabinet approves Gaza City takeover as Starmer calls planwrong- live updates BBC News Live Repo"
 }
+
+###
+
+
+POST http://localhost:3687/api/todos
+Content-Type: application/json
+
+{
+    "task": "hello world 112"
+}

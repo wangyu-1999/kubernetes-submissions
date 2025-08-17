@@ -1,0 +1,24 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: broadcaster-deployment
+  namespace: project
+  labels:
+    app: broadcaster
+spec:
+  replicas: 6
+  selector:
+    matchLabels:
+      app: broadcaster
+  template:
+    metadata:
+      labels:
+        app: broadcaster
+    spec:
+      containers:
+      - name: broadcaster
+        image: march787/broadcaster:v1
+        env:
+          - name: NATS_URL
+            value: "nats://nats-service:4222"

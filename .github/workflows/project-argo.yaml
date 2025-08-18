@@ -103,3 +103,4 @@ jobs:
         with:
           add: './overlays/prod/kustomization.yaml'
           message: New version released ${{ github.sha }}
+          branch: main

@@ -1,0 +1,14 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: staging
+resources:
+- ../../todo
+patches:
+  - path: deployment.yaml
+
+namePrefix: stag-
+
+images:
+- name: march787/todo-app
+- name: march787/todo-backend

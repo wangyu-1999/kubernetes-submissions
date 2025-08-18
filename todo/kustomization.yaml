@@ -3,7 +3,6 @@ kind: Kustomization
 
   
 resources:
-- project-manifests/namespace.yaml
 - project-manifests/db.yaml
 - project-manifests/todo-storage.yaml
 - project-manifests/ingress.yaml
@@ -12,11 +11,5 @@ resources:
 - todo-backend/manifests/deployment.yaml
 - todo-backend/manifests/service.yaml
 - todo-backend/manifests/todo-cronjob.yaml
-
-images:
-- name: march787/todo-app
-  newName: march787/todo-app
-  newTag: b4ea2395941dddbfb5dd1f167368d65258db4380
-- name: march787/todo-backend
-  newName: march787/todo-backend
-  newTag: b4ea2395941dddbfb5dd1f167368d65258db4380
+- broadcaster/manifests/deployment.yaml
+- broadcaster/manifests/service.yaml

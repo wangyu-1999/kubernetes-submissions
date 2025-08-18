@@ -3,7 +3,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: broadcaster-deployment
-  namespace: project
   labels:
     app: broadcaster
 spec:
@@ -18,7 +17,7 @@ spec:
     spec:
       containers:
       - name: broadcaster
-        image: march787/broadcaster:v2
+        image: march787/broadcaster:v3
         env:
           - name: NATS_URL
             value: "nats://nats-service:4222"

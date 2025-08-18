@@ -102,5 +102,5 @@ jobs:
         uses: EndBug/add-and-commit@v9
         with:
           add: './overlays/prod/kustomization.yaml'
-          message: New version released ${{ github.sha }}
-          branch: main
+          message: 'CI: Release to production [${{ github.ref_name }}]'
+          push: 'main'

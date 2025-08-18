@@ -1,0 +1,53 @@
+name: project argo deployment
+
+on:
+  push:
+
+jobs:
+  build-publish:
+    if: ${{ endsWith(github.event.head_commit.message, '#project-argo') }} 
+    name: Build, Push, Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Form todo-app image name
+        run: echo "APP_IMAGE_TAG=march787/todo-app:$GITHUB_SHA" >> $GITHUB_ENV
+
+      - name: Form todo-backend image name
+        run: echo "BACKEND_IMAGE_TAG=march787/todo-backend:$GITHUB_SHA" >> $GITHUB_ENV
+
+      - name: Build todo-app
+        run: docker build -t $APP_IMAGE_TAG ./todo/todo-app
+
+      - name: Push todo-app
+        run: docker push $APP_IMAGE_TAG
+
+      - name: Build todo-backend
+        run: docker build -t $BACKEND_IMAGE_TAG ./todo/todo-backend
+
+      - name: Push todo-backend
+        run: docker push $BACKEND_IMAGE_TAG
+
+      - name: Set up Kustomize
+        uses: imranismail/setup-kustomize@v2
+
+      - name: Use right image
+        working-directory: ./todo
+        run: |
+          kustomize edit set image march787/todo-app=$APP_IMAGE_TAG
+          kustomize edit set image march787/todo-backend=$BACKEND_IMAGE_TAG
+
+      - name: commit kustomization.yaml to GitHub
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: './todo/kustomization.yaml'
+          message: New version released ${{ github.sha }}

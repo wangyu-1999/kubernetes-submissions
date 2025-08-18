@@ -4,6 +4,7 @@ kind: Kustomization
 namespace: staging
 resources:
 - ../../todo
+- namespace.yaml
 patches:
 - path: deployment.yaml
 

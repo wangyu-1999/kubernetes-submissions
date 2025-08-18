@@ -5,10 +5,14 @@ namespace: staging
 resources:
 - ../../todo
 patches:
-  - path: deployment.yaml
+- path: deployment.yaml
 
 namePrefix: stag-
 
 images:
 - name: march787/todo-app
+  newName: march787/todo-app
+  newTag: 253ef0b65e0b00d8fa17170c0416ae664bcdcf49
 - name: march787/todo-backend
+  newName: march787/todo-backend
+  newTag: 253ef0b65e0b00d8fa17170c0416ae664bcdcf49

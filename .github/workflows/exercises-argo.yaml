@@ -49,15 +49,26 @@ jobs:
       - name: Set up Kustomize
         uses: imranismail/setup-kustomize@v2
 
+      - name: Setup SSH for Git
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.CONFIG_REPO_PRIVATE_KEY }}
+
+      - name: Clone Config Repo via SSH
+        run: git clone git@github.com:wangyu-1999/kubernetes-submissions-configuration.git
+
       - name: Use right image
-        working-directory: ./exercise
+        working-directory: ./kubernetes-submissions-configuration/exercise
         run: |
           kustomize edit set image march787/log-output=$LOGOUT_IMAGE_TAG
           kustomize edit set image march787/ping-pong=$PINGPONG_IMAGE_TAG
           kustomize edit set image march787/string-generator=$STRING_GENERATOR_IMAGE_TAG
 
+      
       - name: commit kustomization.yaml to GitHub
         uses: EndBug/add-and-commit@v9
         with:
-          add: './exercise/kustomization.yaml'
+          add: './kubernetes-submissions-configuration/exercise/kustomization.yaml'
+          author_name: github-actions
+          author_email: github-actions@github.com
           message: New version released ${{ github.sha }}

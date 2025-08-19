@@ -68,7 +68,8 @@ jobs:
       - name: commit kustomization.yaml to GitHub
         uses: EndBug/add-and-commit@v9
         with:
-          add: './kubernetes-submissions-configuration/exercise/kustomization.yaml'
+          cwd: ./kubernetes-submissions-configuration
+          add: ./exercise/kustomization.yaml
           author_name: github-actions
           author_email: github-actions@github.com
           message: New version released ${{ github.sha }}

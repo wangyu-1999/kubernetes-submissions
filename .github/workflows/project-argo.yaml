@@ -44,8 +44,16 @@ jobs:
       - name: Set up Kustomize
         uses: imranismail/setup-kustomize@v2
 
+      - name: Setup SSH for Git
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.CONFIG_REPO_PRIVATE_KEY }}
+
+      - name: Clone Config Repo via SSH
+        run: git clone git@github.com:wangyu-1999/kubernetes-submissions-configuration.git
+
       - name: Use right image
-        working-directory: ./overlays/staging
+        working-directory: ./kubernetes-submissions-configuration/overlays/staging
         run: |
           kustomize edit set image march787/todo-app=$APP_IMAGE_TAG
           kustomize edit set image march787/todo-backend=$BACKEND_IMAGE_TAG
@@ -53,7 +61,10 @@ jobs:
       - name: commit kustomization.yaml to GitHub
         uses: EndBug/add-and-commit@v9
         with:
+          cwd: ./kubernetes-submissions-configuration
           add: './overlays/staging/kustomization.yaml'
+          author_name: github-actions
+          author_email: github-actions@github.com
           message: New version released ${{ github.sha }}
 
   prod-build-publish:
@@ -94,8 +105,16 @@ jobs:
       - name: Set up Kustomize
         uses: imranismail/setup-kustomize@v2
 
+      - name: Setup SSH for Git
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.CONFIG_REPO_PRIVATE_KEY }}
+
+      - name: Clone Config Repo via SSH
+        run: git clone git@github.com:wangyu-1999/kubernetes-submissions-configuration.git
+
       - name: Use right image
-        working-directory: ./overlays/prod
+        working-directory: ./kubernetes-submissions-configuration/overlays/prod
         run: |
           kustomize edit set image march787/todo-app=$APP_IMAGE_TAG
           kustomize edit set image march787/todo-backend=$BACKEND_IMAGE_TAG
@@ -103,5 +122,8 @@ jobs:
       - name: commit kustomization.yaml to GitHub
         uses: EndBug/add-and-commit@v9
         with:
+          cwd: ./kubernetes-submissions-configuration
           add: './overlays/prod/kustomization.yaml'
+          author_name: github-actions
+          author_email: github-actions@github.com
           message: 'CI: Release to production [${{ github.ref_name }}]'

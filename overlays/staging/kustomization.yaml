@@ -13,7 +13,7 @@ namePrefix: stag-
 images:
 - name: march787/todo-app
   newName: march787/todo-app
-  newTag: 253ef0b65e0b00d8fa17170c0416ae664bcdcf49
+  newTag: 9802bdb586b9408be26f57413294fccbf7e057d2
 - name: march787/todo-backend
   newName: march787/todo-backend
-  newTag: 253ef0b65e0b00d8fa17170c0416ae664bcdcf49
+  newTag: 9802bdb586b9408be26f57413294fccbf7e057d2

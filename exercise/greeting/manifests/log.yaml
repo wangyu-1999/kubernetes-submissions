@@ -1,0 +1,87 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: log-output-dep
+  namespace: exercises
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: log-output
+  template:
+    metadata:
+      labels:
+        app: log-output
+    spec:
+      volumes:
+        - name: shared-volume
+          persistentVolumeClaim:
+            claimName: shared-pvc
+        - name: config-volume
+          configMap:
+            name: log-output-configmap
+      containers:
+        - name: log-output-reader
+          image: march787/log-output:v8
+          ports:
+            - containerPort: 3000
+              name: http
+          volumeMounts:
+            - name: shared-volume
+              mountPath: /usr/src/app/files
+            - name: config-volume
+              mountPath: /etc/config
+          env:
+            - name: OUTPUT_FILE_PATH
+              value: "/usr/src/app/files/"
+            - name: PING_PONG_URL
+              value: "http://ping-pong-svc:3567/api/"
+            - name: GREET_URL
+              value: "http://greet-svc:3000/"
+            - name: MESSAGE
+              valueFrom:
+                configMapKeyRef:
+                  name: log-output-configmap
+                  key: MESSAGE
+          readinessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            httpGet:
+               path: /healthz
+               port: http
+  
+        - name: log-output-generator
+          image: march787/string-generator:v2
+          volumeMounts:
+            - name: shared-volume
+              mountPath: /usr/src/app/files
+          env:
+            - name: OUTPUT_FILE_PATH
+              value: "/usr/src/app/files/"
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: log-output-configmap
+  namespace: exercises
+data:
+  information.txt: this text is from file
+  MESSAGE: "hello world"
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: log-output-svc
+  namespace: exercises
+spec:
+  type: ClusterIP
+  selector:
+    app: log-output
+  ports:
+    - port: 1234
+      protocol: TCP
+      targetPort: 3000

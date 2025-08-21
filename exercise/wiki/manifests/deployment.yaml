@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wikipedia-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wikipedia-server
+  template:
+    metadata:
+      labels:
+        app: wikipedia-server
+    spec:
+      volumes:
+        - name: web-content
+          persistentVolumeClaim:
+            claimName: wiki-pvc
+      initContainers:
+        - name: fetch-initial-page
+          image: busybox:latest
+          command: ['wget', '-O', '/usr/share/nginx/html/index.html', 'https://en.wikipedia.org/wiki/Kubernetes']
+          volumeMounts:
+            - name: web-content
+              mountPath: /usr/share/nginx/html
+      containers:
+        - name: nginx-web-server
+          image: nginx:latest
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: web-content
+              mountPath: /usr/share/nginx/html
+        - name: random-page-updater
+          image: busybox:latest
+          command:
+            - /bin/sh
+            - -c
+            - |
+              set -e
+
+              echo "Sidecar starting."
+              while true; do
+                SLEEP_SECONDS=$(( ( RANDOM % 600 ) + 300 ))
+
+                echo "Next update in ${SLEEP_SECONDS} seconds..."
+                sleep ${SLEEP_SECONDS}
+
+                echo "Fetching a new random page..."
+                wget -q -O /usr/share/nginx/html/index.html "https://en.wikipedia.org/wiki/Special:Random"
+
+              done
+          volumeMounts:
+            - name: web-content
+              mountPath: /usr/share/nginx/html

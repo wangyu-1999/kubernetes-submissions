@@ -1,0 +1,25 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: ping-pong 
+  namespace: exercises
+spec:
+  template:
+    spec:
+      containers:
+        - name: ping-pong
+          image: march787/ping-pong:3c0ce4d4c6d6f344260d9e26e15e5e746b67780c
+          ports:
+            - containerPort: 8080
+          env:
+            - name: POSTGRES_HOST
+              value: "postgres-svc"
+            - name: POSTGRES_USER
+              value: "postgres"
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_DB
+              value: "postgres"
